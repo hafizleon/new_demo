@@ -1,0 +1,117 @@
+<BUTEX_SERVER_ASW_01>system-view
+[BUTEX_SERVER_ASW_01]vlan batch 300 700 800 801 900 1000
+[BUTEX_SERVER_ASW_01]interface Vlanif 300
+[BUTEX_SERVER_ASW_01-Vlanif300]ip add
+[BUTEX_SERVER_ASW_01-Vlanif300]ip address 172.16.253.
+
+
+[BUTEX_SERVER_ASW_01]display ip interface brief
+
+[BUTEX_SERVER_ASW_01]interface Vlanif 300
+display this
+[BUTEX_SERVER_ASW_01-Vlanif300]ip address 172.16.253.11 255.255.255.0
+Info: Operating, please wait for a moment.........done.
+[BUTEX_SERVER_ASW_01-Vlanif300]description ***Mgmt IP***
+[BUTEX_SERVER_ASW_01-Vlanif300]quit
+[BUTEX_SERVER_ASW_01]ip route-static 0.0.0.0 0.0.0.0 172.16.253.3
+
+[BUTEX_SERVER_ASW_01]aaa
+[BUTEX_SERVER_ASW_01-aaa]local-user admin1 password irreversible-cipher Admin1@3
+Error: The username length must be greater than or equal to six characters.                                                                            
+Info: The initial password of admin1 must be changed during login.
+[BUTEX_SERVER_ASW_01-aaa]local-user admin1 privilege level 3
+Warning: This operation may affect online users and will change the user privile                                                                             ge level, Continue? [Y/N]:
+Error: Please choose 'YES' or 'NO' first before pressing 'Enter'. [Y/N]:y
+
+[BUTEX_SERVER_ASW_01-aaa]local-user admin1 service-type terminal ssh
+Info: After changing the rights (including the password, access type, FTP direct                                                                             ory, and HTTP directory) of a local user, the rights of users already online do                                                                              not change. The change takes effect to users who go online after the change.
+
+[BUTEX_SERVER_ASW_01-aaa]user-interface con 0
+[BUTEX_SERVER_ASW_01-ui-console0] authentication-mode password
+Warning: The "password" authentication mode is not secure, and it is strongly re                                                                             commended to use "aaa" authentication mode.
+
+[BUTEX_SERVER_ASW_01-ui-console0]set authentication password cipher Admin1@3#
+Info: The password of ui-console0 will be changed, please verify the old password.
+Please enter old password:
+
+[BUTEX_SERVER_ASW_01-ui-console0] authentication-mode aaa
+Info: The password of ui-console0 will be changed, please verify the old passwor                                                                             d.
+Please enter old password:
+Warning: The level of the user-interface(s) will be the default level of AAA users. 
+Check whether it is correct. After the authentication mode is set to AAA, enter the user name and password to log in.
+Info: The password was cleared.
+
+
+Username:admin1
+Password:
+Warning: The initial password poses security risks.The password needs to be chan                                                                             ged, Continue? [Y/N]:y
+Please enter old password:
+Please enter new password:
+Please confirm new password:
+The password has been changed successfully.
+Info: The max number of VTY users is 5, the number of current VTY users online i                                                                             s 0, and total number of terminal users online is 1.
+
+
+[BUTEX_SERVER_ASW_01]user-interface vty 0 4
+[BUTEX_SERVER_ASW_01-ui-vty0-4]authentication-mode aaa
+[BUTEX_SERVER_ASW_01-ui-vty0-4]user privilege level 3
+[BUTEX_SERVER_ASW_01-ui-vty0-4]q
+[BUTEX_SERVER_ASW_01]stelnet server enable
+Info: Succeeded in starting the STelnet server.
+Warning: After configuring the source interface or source address, the IPV4/IPV6                                                                              listening socket will be created.
+
+[BUTEX_SERVER_ASW_01]ssh user admin1
+Info: Succeeded in adding a new SSH user.
+[BUTEX_SERVER_ASW_01]ssh user admin1 authentication-type password
+[BUTEX_SERVER_ASW_01]ssh user admin1 service-type stelnet
+
+[BUTEX_SERVER_ASW_01]ssh server-source all-interface
+Warning: SSH server source configuration will take effect in the next login. Con                                                                             tinue? [Y/N]:y
+Warning: It expands the range of accessed IP.
+[BUTEX_SERVER_ASW_01]ssh server cipher aes256_ctr aes128_ctr
+[BUTEX_SERVER_ASW_01]ssh server hmac sha2_256
+[BUTEX_SERVER_ASW_01]ssh client key-exchange dh_group16_sha512 dh_group15_sha512 dh_group14_sha256 dh_group_exchange_sha256
+
+[BUTEX_SERVER_ASW_01]ssh server dh-exchange min-len 2048
+Error: This algorithm is insecure. To use it, please execute the command "install feature-software WEAKEA".
+[BUTEX_SERVER_ASW_01]ssh server publickey rsa_sha2_512 rsa_sha2_256
+
+
+[BUTEX_SERVER_ASW_01]vlan 300
+[BUTEX_SERVER_ASW_01-vlan300]name Mgmt
+[BUTEX_SERVER_ASW_01-vlan300]q
+
+[BUTEX_SERVER_ASW_01]vlan 800
+[BUTEX_SERVER_ASW_01-vlan800]name
+[BUTEX_SERVER_ASW_01-vlan800]name AP-Student
+
+[BUTEX_SERVER_ASW_01-vlan800]vlan 801
+[BUTEX_SERVER_ASW_01-vlan801]name AP-eduroam
+
+[BUTEX_SERVER_ASW_01-vlan801]vlan 900
+[BUTEX_SERVER_ASW_01-vlan900]name LAN
+
+[BUTEX_SERVER_ASW_01-vlan900]vlan 1000
+[BUTEX_SERVER_ASW_01-vlan1000]name SERVER-IP
+
+[BUTEX_SERVER_ASW_01-vlan1000]Vlan 802
+[BUTEX_SERVER_ASW_01-vlan802]name AP-Teacher
+
+[BUTEX_SERVER_ASW_01-vlan802]vlan 803.
+[BUTEX_SERVER_ASW_01-vlan803]name AP-Office
+[BUTEX_SERVER_ASW_01-vlan803]q
+[BUTEX_SERVER_ASW_01]q
+<BUTEX_SERVER_ASW_01>save
+Warning: The current configuration will be written to the device. Continue? [Y/N]:y
+Now saving the current configuration to the slot 1 ....
+Info: Save the configuration successfully.
+
+#####################################################################################
+<BUTEX_SERVER_ASW_01>system-view
+
+[BUTEX-NEW-ASW-01]sysname BUTEX-NEW-HW-ASW-01
+[BUTEX-NEW-HW-ASW-01]q
+<BUTEX-NEW-HW-ASW-01>save
+Warning: The current configuration will be written to the device. Continue? [Y/N]:y
+Now saving the current configuration to the slot 1 ....
+Info: Save the configuration successfully.
